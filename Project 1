@@ -1,0 +1,673 @@
+ //****************************************************
+// Title: Design Project 3
+// Course: Computational Problem Solving CPET - 1
+// Developer: Christian Aguilar
+// Date: 3/25/2019
+// Description: Runs a game of Connect 4
+//****************************************************
+#include <iostream>
+#include <iomanip>
+#include <cmath>
+#include <ctime>
+#include <cstdlib>
+
+using namespace std;
+
+void grid(char board[][7]) // Grid function for game board //
+{
+		srand(time(NULL)); // number randomizer
+		cout << "\n\n\n"; // Spacing
+		//++++++++++++++++++++++++++++++++
+
+		cout << "   ";
+			for(int j = 1;j <= 7; j ++)//Number 1-10 labeling the grid
+			{
+				cout << "   " << j; // Number spacing
+			}
+				cout << endl;
+		//++++++++++++++++++++++++++++++++
+		// Creates the board layout
+		for(int r = 0; r < 6; r++)
+			{
+				cout << "   ";
+			for (int c = 0; c < 7; c++ )
+			{
+
+				cout << " |" << board[r][c] << " ";
+			}
+			cout << " |" << endl;
+			cout <<"    +---+---+---+---+---+---+---+\n";
+		}
+		cout << "\n\n\n";
+}
+
+int number_Check(int &player_Input) // Function that checks the users entry and determines if valid
+{
+	bool done = false; // Boolean statement to end game
+
+	while (done == false) // Set the max placement for game tokens between 1-7 only
+	{
+		if( player_Input < 0 || player_Input > 7) // Sets the valid inputs from 1-7 only
+		{
+			cout << "Invalid Input : Enter a position that is between 1 and 7. " <<endl; // Displays the error message
+			cin >> player_Input;
+		}
+		else
+		{
+			done = true; // Ends the statement
+			break;
+		}
+	}
+	return(player_Input);
+}
+
+bool pop_out(char board[][7],char &player_1, char &player_2, int &player_turn) // Pop out function for the game
+{
+	int choice;
+	bool done = false; // Boolean to allow to end the function
+	char token; // Character used for game piece
+
+	if(player_turn == 1)
+	{
+		token = player_1;
+	}
+	else
+	{
+		token = player_2;
+	}
+
+	cout << "Which column would you like to pop a piece out of?" << endl; // Displays instructions for pop out
+	cout << "Remember it must be one of your own pieces. If not you lose a turn." << endl;
+	cin  >> choice; // connects the display to what the player inputs
+
+	choice--; // Does count from bottom of the board to up
+
+	if(board[5][choice] == token) // If statement to process the pop out ability
+	{
+		for(int r = 5; r >= 0; r--)
+		{
+			if (r == 0)
+			{
+				board[r][choice] = ' ';
+			}
+
+			else
+			{
+				board[r][choice] = board[r-1][choice];
+			}
+		}
+
+		done = true; // Ends pop out functions
+	}
+	else
+	{
+		done = false;
+	}
+	return (done);
+}
+
+void player_Turn(char board[][7], int &player_Input, int &player_turn, char &player_1, char &player_2) // Function for player 1 and 2 turns
+{
+	char token; // Token variable
+	bool done = false; // Ends player turn with boolean
+
+	if(player_turn == 1)
+	{
+		token = player_1;
+		cout << "Player 1 it is your turn\n" << endl; // Displays player 1 turn
+	}
+	else
+	{
+		token = player_2;
+		cout << "Player 2 it is your turn\n" << endl; // Displays player 2 turn
+	}
+		cout << "Please enter the column you want to place your token in:" << endl; // Displays input for potential spot on board input
+		cin >> player_Input;
+		number_Check(player_Input); // Calls the proper number check
+	do // Do statement in order to restart game
+	{
+		switch(player_Input) // Switch statement for space availability on board
+		{
+			case 0:
+			{
+				done = pop_out(board, player_1, player_2, player_turn);
+				break;
+			}
+
+			case 1: // Checks Column 1
+			{
+				player_Input--; // Player input from bottom of the board to the top
+				for(int r = 5; r > -1; r--) // Checks the row
+				{
+					if(board[r][player_Input] == 'X' || board[r][player_Input] == 'O') // Checks for any X's and O's on board.
+					{
+						done = false; // Code does not end
+					}
+					else if(board[r][player_Input] != 'X' || board[r][player_Input] != 'O') // Checks for any X's and O's on board.
+					{
+						board[r][player_Input] = token;
+						done = true; // Ends turn
+						break;
+					}
+				}
+				break;
+			}
+			case 2: // Checks Column 2
+			{
+				player_Input--;
+				for(int r = 5; r > -1; r--) // Checks the row
+				{
+					if(board[r][player_Input] == 'X' || board[r][player_Input] == 'O') // Checks for any X's and O's on board.
+					{
+						done = false;
+					}
+					else if(board[r][player_Input] != 'X' || board[r][player_Input] != 'O') // Checks for any X's and O's on board.
+					{
+						board[r][player_Input] = token;
+						done = true; // Ends turn
+						break;
+					}
+				}
+				break; // Column 3
+			}
+			case 3:
+			{
+				player_Input--;
+				for(int r = 5; r > -1; r--) // Checks the row
+				{
+					if(board[r][player_Input] == 'X' || board[r][player_Input] == 'O') // Checks for any X's and O's on board.
+					{
+						done = false;
+					}
+					else if(board[r][player_Input] != 'X' || board[r][player_Input] != 'O') // Checks for any X's and O's on board.
+					{
+						board[r][player_Input] = token;
+						done = true; // Ends turn
+						break;
+					}
+				}
+				break;
+			}
+			case 4: // Column 4
+			{
+				player_Input--;
+				for(int r = 5; r > -1; r--) // Checks the row
+				{
+					if(board[r][player_Input] == 'X' || board[r][player_Input] == 'O') // Checks for any X's and O's on board.
+					{
+						done = false;
+					}
+					else if(board[r][player_Input] != 'X' || board[r][player_Input] != 'O') // Checks for any X's and O's on board.
+					{
+						board[r][player_Input] = token;
+						done = true; // Ends turn
+						break;
+					}
+				}
+				break;
+			}
+			case 5: // Checks Column 5
+			{
+				player_Input--;
+				for(int r = 5; r > -1; r--) // Checks the row
+				{
+					if(board[r][player_Input] == 'X' || board[r][player_Input] == 'O') // Checks for any X's and O's on board.
+					{
+						done = false;
+					}
+					else if(board[r][player_Input] != 'X' || board[r][player_Input] != 'O') // Checks for any X's and O's on board.
+					{
+						board[r][player_Input] = token;
+						done = true; // Ends turn
+						break;
+					}
+				}
+				break;
+			}
+			case 6: // Checks Column 6
+			{
+				player_Input--;
+				for(int r = 5; r > -1; r--) // Checks the row
+				{
+					if(board[r][player_Input] == 'X' || board[r][player_Input] == 'O') // Checks for any X's and O's on board.
+					{
+						done = false;
+					}
+					else if(board[r][player_Input] != 'X' || board[r][player_Input] != 'O') // Checks for any X's and O's on board.
+					{
+						board[r][player_Input] = token;
+						done = true; // Ends turn
+						break;
+					}
+				}
+				break;
+			}
+			case 7: // Checks Column 7
+			{
+				player_Input--;
+				for(int r = 5; r > -1; r--) // Checks the row
+				{
+					if(board[r][player_Input] == 'X' || board[r][player_Input] == 'O') // Checks for any X's and O's on board.
+					{
+						done = false;
+					}
+					else if(board[r][player_Input] != 'X' || board[r][player_Input] != 'O') // Checks for any X's and O's on board.
+					{
+						board[r][player_Input] = token;
+						done = true; // Ends turn
+						break;
+					}
+				}
+				break;
+			}
+		}
+		if (done == false) // If anything else then display the following comment
+		{
+			cout << "Sorry, Invalid You lose your turn " << endl; // Displays error on input placement
+			done = true; // Ends function
+			break;
+		}
+
+	}while(done == false); // Cycles between player 1 and 2
+
+	if (player_turn == 1)
+	{
+		player_turn = 2;
+	}
+	else
+	{
+		player_turn = 1;
+	}
+}
+
+bool HorizontalWinPlayer1(char &player_1, char board[][7], int &win_type) // Bool Function for Horizontal win for player 1
+{
+	bool done = false;
+
+	for (int r = 0; r < 6; r++)
+	{
+		for(int c = 0; c < 4; c++)
+		{
+			if (board[r][c] == player_1)
+			{
+				if (board[r][c + 1] == player_1 && board[r][c + 2] == player_1 && board[r][c + 3] == player_1) //Checks for horizontal wins
+				{
+					win_type = 1; // Win type 1
+					done = true; // Ends game
+					return(true);
+					break;
+				}
+			}
+		}
+	}
+
+	return(done);
+}
+
+bool HorizontalWinPlayer2(char &player_2, char board[][7], int &win_type) // Bool Function for Horizontal win for player 2
+{
+	bool done = false;
+
+	for (int r = 0; r < 6; r++)
+	{
+		for(int c = 0; c < 4; c++)
+		{
+			if (board[r][c] == player_2)
+			{
+				if (board[r][c + 1] == player_2 && board[r][c + 2] == player_2 && board[r][c + 3] == player_2) //Checks for horizontal wins
+				{
+					win_type = 2; // Win type 2
+					done = true; // Ends game
+					return(true);
+					break;
+				}
+			}
+		}
+	}
+
+	return(done);
+}
+
+bool VerticalWinPlayer1(char &player_1, char board[][7], int &win_type) // Function that checks Vertical wins by player 1
+{
+	bool done = false;
+
+	for (int c = 0; c < 7; c++)
+	{
+		for(int r = 0; r < 4; r++)
+		{
+			if (board[r][c] == player_1)
+			{
+				if (board[r + 1][c] == player_1 && board[r + 2][c] == player_1 && board[r + 3][c] == player_1) // Checks for verticle Wins
+				{
+					win_type = 1; // Win type for player 1
+					done = true;
+					return(true);
+					break;
+				}
+			}
+		}
+	}
+
+	return(done);
+}
+
+bool VerticalWinPlayer2(char &player_2, char board[][7], int &win_type) // Function that checks Vertical wins by player 2
+{
+	bool done = false;
+
+	for (int c = 0; c < 7; c++)
+	{
+		for(int r = 0; r < 4; r++)
+		{
+			if (board[r][c] == player_2)
+			{
+				if (board[r + 1][c] == player_2 && board[r + 2][c] == player_2 && board[r + 3][c] == player_2) // Checks for Verticle wins
+				{
+					win_type = 2; // Win type for player 2
+					done = true;
+					return(true);
+					break;
+				}
+			}
+		}
+	}
+
+	return(done);
+}
+
+bool DiagnolWinPlayer1(char &player_1, char board[][7], int &win_type) // Function that checks Diagonal wins for player 1
+{
+	bool done = false;
+
+	for(int r = 0; r < 6; r++)
+	{
+		for (int c = 0; c < 7; c++ )
+		{
+			if (board[r][c] == player_1)
+			{
+				if (c < 3) // Checks first half of board
+				{
+					if (board[r + 1][c + 1] == player_1 && board[r + 2][c + 2] == player_1 && board[r + 3][c + 3] == player_1) // Diagonal check for the board
+					{
+						win_type = 1; // Win for player 1
+						done = true; // end game
+						return(true);
+						break;
+					}
+				}
+				else if (c > 3) // Checks other half
+				{
+					if (board[r + 1][c - 1] == player_1 && board[r + 2][c - 2] == player_1 && board[r + 3][c - 3] == player_1) // Diagonal check for the board
+					{
+						win_type = 1; // Win for player 1
+						done = true; // End game
+						return(true);
+						break;
+					}
+				}
+				else if (c == 3) // Checks 3rd column
+				{
+					if (board[r + 1][c + 1] == player_1 && board[r + 2][c + 2] == player_1 && board[r + 3][c + 3] == player_1) // Diagonal check for the board
+					{
+						win_type = 1; // Win for player 1
+						done = true; // End game
+						return(true);
+						break;
+					}
+					if (board[r + 1][c - 1] == player_1 && board[r + 2][c - 2] == player_1 && board[r + 3][c - 3] == player_1) // Diagonal check for the board
+					{
+						win_type = 1; // Win for player 1
+						done = true; // End game
+						return(true);
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	return(done);
+}
+
+bool DiagnolWinPlayer2(char &player_2, char board[][7], int &win_type) // Function that checks Diagonal wins for player 2
+{
+	bool done = false;
+
+	for(int r = 0; r < 6; r++)
+	{
+		for (int c = 0; c < 7; c++ )
+		{
+			if (board[r][c] == player_2)
+			{
+				if (c < 3) // Checks left side of grid
+				{
+					if (board[r + 1][c + 1] == player_2 && board[r + 2][c + 2] == player_2 && board[r + 3][c + 3] == player_2) // Diagonal check for the board
+					{
+						win_type = 2; // Win for player 2
+						done = true; // Ends game
+						return(true);
+						break;
+					}
+				}
+				else if (c > 3) // Checks right side of grid
+				{
+					if (board[r + 1][c - 1] == player_2 && board[r + 2][c - 2] == player_2 && board[r + 3][c - 3] == player_2) // Diagonal check for the board
+					{
+						win_type = 2; // Win for player 2
+						done = true; // Ends game
+						return(true);
+						break;
+					}
+				}
+				else if (c == 3) // Checks column 3
+				{
+					if (board[r + 1][c + 1] == player_2 && board[r + 2][c + 2] == player_2 && board[r + 3][c + 3] == player_2) // Diagonal check for the board
+					{
+						win_type = 2; // Win for player 2
+						done = true; // Ends game
+						return(true);
+						break;
+					}
+					if (board[r + 1][c - 1] == player_2 && board[r + 2][c - 2] == player_2 && board[r + 3][c - 3] == player_2) // Diagonal check for the board
+					{
+						win_type = 2; // Win for player 2
+						done = true; // Ends game
+						return(true);
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	return(done);
+}
+
+bool tie_game(char board[][7], int &win_type, int cnt) // Tie game Function as a end game possibility
+{
+	bool done = false; // End game
+
+		for (int c = 0; c < 7; c++)
+		{
+			if (board[0][c] != ' ')
+			{
+				cnt++;
+			}
+		}
+
+	if(cnt == 7) // If top row filled and no winner then its a tied game
+	{
+		done = true;
+		win_type = 3; // type 3 is tie
+		return (true);
+	}
+
+	return(done);
+}
+
+
+int main()
+{
+	int const r = 6; // Constants for row 6 //make caps
+	int const c = 7; // Constants for column 7
+
+	srand(time(NULL)); // Randomizer for who plays first
+	int again = 1; // Variable for game to be played again
+	int cnt = 0; // Count for a tie
+	do //Loop to reset parameters if game starts again
+	{
+		bool finish = false; // Boolean to finish game
+		char board[r][c]; // Array for column and row
+		char player_1, player_2, decision; // Variables for players and the decision on who plays
+		int turn, player_turn, player_Input; // Variables for turns and input
+		int coin = 0; // Variable for coin flip
+		int win_type = 0; // Variable for win type (player 1, player 2, or tie)
+		cout << setw(30) << " Welcome to Connect 4" << endl; // Welcome statement
+		cout << setw(42) << " The goal of Connect 4 is to be the first" <<endl;
+		cout << "player to place four checkers in a row, either" << endl; // Connect 4 instructions
+		cout << setw(42) << "horizontally, vertically or diagonally" << endl;
+		cout << setw(42) << "To initiate pop out just input 0 on your turn" << endl;
+		cout << "\n\n\n"; // Spacing
+
+		coin = (rand()%2) + 1; // Flips the coin (randomizer)
+
+				if(coin == 1) // Player 1 goes first
+				{
+					cout << "Player 1 Goes first........\n" << endl;
+					turn = 1;
+					player_turn = 1;
+
+				}
+				else //Player 2 goes second
+				{
+
+					cout << "Player 2 Goes first........\n" << endl;
+					turn = 0;
+					player_turn = 2;
+				}
+
+				cout << "Choose your marker, enter X or O: " << endl; //Asks the user to decide which marker they want
+					cin >> decision;
+
+					decision = toupper(decision); //Makes input capital letters
+
+					if (turn == 1) //Player 1 gets to decide their piece
+					{
+
+						if (decision == 'X')
+						{
+							player_1 = 'X';
+							player_2 = 'O';
+						}
+						else
+						{
+							player_1 = 'O';
+							player_2 = 'X';
+						}
+
+					}
+					else	// Player 2 gets to decide their piece
+					{
+						if (decision == 'X')
+						{
+							player_2 = 'X';
+							player_1 = 'O';
+						}
+						else
+						{
+							player_2 = 'O';
+							player_1 = 'X';
+						}
+
+					}
+
+					for(int r = 0; r < 6; r++)
+					{
+						for (int c = 0; c < 7; c++ )
+						{
+							board[r][c] = ' '; // Board checks for empty space
+						}
+					}
+				grid(board);
+
+				do //Loop for the actual game
+				{
+					player_Turn(board, player_Input, player_turn, player_1, player_2); // calls the function  for player turn
+					grid(board); // Displays the game board function
+
+					while(1)
+					{
+						finish = HorizontalWinPlayer1(player_1,  board, win_type); // Calls the Horizontal win player 1 function
+						if (finish == true) // If the win is success then game ends
+						{
+							break;
+						}
+						finish = HorizontalWinPlayer2(player_2,  board, win_type); // Calls the Horizontal win player 2 function
+						if (finish == true) // If the win is a success then the game ends
+						{
+							break;
+						}
+						finish = VerticalWinPlayer1(player_1,  board, win_type); // Calls the Vertical win player 1 function
+						if (finish == true) // If the win is a success then the game ends
+						{
+							break;
+						}
+						finish = VerticalWinPlayer2(player_2,  board, win_type);  // Calls the Vertical win player 2 function
+						if (finish == true) // If the win is a success then the game ends
+						{
+							break;
+						}
+						finish = DiagnolWinPlayer1(player_1,  board, win_type); // Calls the Diagonal win player 1 function
+						if (finish == true) // If the win is a success then the game ends
+						{
+							break;
+						}
+						finish = DiagnolWinPlayer2(player_2,  board, win_type); // Calls the Diagonal win player 2 function
+						if (finish == true) // If the win is a success then the game ends
+						{
+							break;
+						}
+						finish = tie_game(board, win_type, cnt); // Calls the tie game function
+						if (finish == true) // If the win is a success then the game ends
+						{
+							break;
+						}
+
+						finish = false; //If it did not break before this that means the game has not ended
+						break;
+					}
+
+					if (win_type == 1) // Win type 1 (For Player 1)
+					{
+						cout << "Player 1 Wins! \n" << endl; // Displays winner for player 1
+						break;
+					}
+					else if (win_type == 2) // Win type 2 (For Player 2)
+					{
+						cout << "Player 2 Wins!\n" << endl; // Displays winner for player 2
+						break;
+					}
+					else if (win_type == 3) // Win type 3 (For a Tie)
+					{
+						cout << "The game is a Tie!" << endl; // Displays a tie
+						break;
+					}
+
+				}while(finish == false); // For restarting the game at the end of one
+		cout << "Would you like to play again? Enter 1 for yes or 2 for no: " << endl; // Displays the option for the game to redo
+		cin >> again;
+
+		if (again == 1)
+		{
+			cout << "Lets play again!" << endl; // Displays lets play again
+			cout << "\n\n\n"; // Spacing
+		}
+		else
+		{
+			cout << "Thanks for Playing!" << endl; // Displays end game comment
+		}
+	}while(again == 1);
+
+			return(0);
+}
