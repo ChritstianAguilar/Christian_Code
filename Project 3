@@ -1,0 +1,58 @@
+//****************************************************
+// Title: Competency #3
+// Course: Computational Problem Solving CPET - 1
+// Developer: Christian Aguilar
+// Date: 3/27/2019
+// Description: Calculates then displays the sum for each row and the grand-total of an entire 5 x 4 array.
+//****************************************************
+#include <iostream>
+#include <iomanip>
+#include <stdlib.h>
+
+using namespace std;
+
+int const ROW = 5;
+int const COLUMN = 4;
+
+int sums_rows(int rc[ROW][COLUMN], int r[ROW])
+{
+	int row_sums = 0;
+	int total = 0;
+	for(int i = 0; i < ROW; i++)
+	{
+		row_sums = 0;
+		for(int j = 0; j < COLUMN; j++)
+		{
+			row_sums = row_sums + rc[i][j];
+		}
+		r[i] = row_sums;
+		total = total + row_sums;
+	}
+	return (total);
+}
+
+int display_sums(int r[ROW], int grand_total)
+{
+	for(int i = 0; i < ROW; i++)
+	{
+		cout << "Row " << i << " Total = " << r[i] << endl;
+	}
+	cout << "Grand Total = " << grand_total << endl;
+	return(0);
+}
+
+int main(void)
+{
+	int data[ROW][COLUMN] = {7, 9, 1, 3,
+							 5, 2, 9, 0,
+							 6, 8, 9, 2,
+							 3, 4, 5, 1,
+							 1, 6, 2, 8};
+	int row_sums[ROW];
+
+	int grand_total;
+
+	grand_total = sums_rows(data, row_sums);
+
+	display_sums(row_sums, grand_total);
+}
