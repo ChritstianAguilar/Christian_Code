@@ -1,0 +1,550 @@
+//****************************************************
+// Title: Design Project 2
+// Course: Computational Problem Solving CPET - 1
+// Developer: Christian Aguilar
+// Date: 2/28/19
+// Description: Makes a Tic Tac Toe Game (Better Implementation)
+//****************************************************
+
+#include <iostream>
+#include <iomanip>
+#include <cmath>
+#include <ctime>
+#include <cstdlib>
+
+using namespace std;
+
+char space1 = '1'; // Sets Global Variables for the spots on the board
+char space2 = '2';
+char space3 = '3';
+char space4 = '4';
+char space5 = '5';
+char space6 = '6';
+char space7 = '7';
+char space8 = '8';
+char space9 = '9';
+
+char playerMarker;
+char computerMarker;
+
+
+void board() // Creates Functions to draw the tic tac toe board
+{
+
+	cout << setw(7) << "Tic Tac Toe" << endl; // Displays title of the game
+	cout << setw(7) << "User ("<< playerMarker <<") " << setw(4) << "Computer ("<< computerMarker <<")" << endl; // Displays player icons
+	cout << endl;
+
+	// Creates the board fot Tic Tac Toe
+	cout <<  "      |      |     " << endl;
+	cout <<  "   "<<space1<<"  |   "<< space2<<"  |  "<< space3 << endl;
+	cout <<  " -----|------|-----" << endl;
+	cout <<  "      |      |     " << endl;
+	cout <<  "    " << space4 << " |   "<< space5 <<"  |  "<< space6 << endl;
+	cout <<  " -----|------|-----" << endl;
+	cout <<  "      |      |     " << endl;
+	cout <<  "   "<< space7 <<"  |   "<< space8 <<"  |  "<< space9 << endl;
+	cout <<  "      |      |     " << endl;
+
+	return;
+}
+
+int flip_coin (int &turn) // Creates Function to flip coin
+{
+	int toss; // Variable for toss
+	int coin; // Variable for the coin
+	char decision; // Variable used for the decision on who goes first
+	int coin_decision;
+
+	cout << "Would you like to Flip a Coin to decide who goes first? If yes enter 1 and if no enter 2: " << endl;
+	cin >> coin_decision;
+
+	if (coin_decision == 1) // If coin calue is 1 then do the following
+	{
+
+		cout << "You will now flip a coin to decide who goes first. Enter 1 for heads or 0 for tails: " << endl; //Takes in guess for coin toss
+		cin >> toss;
+
+		coin = (rand()%2); //Flips the coin
+
+		if(coin == toss) //Player goes first
+		{
+			cout << "You were right you go first" << endl; // Displays that the winner goes first
+			turn = 1;
+
+		}
+		else //Player goes second
+		{
+			cout << "You were wrong you go second" << endl; // Displays that the loser goes second
+			turn = 0;
+		}
+	}
+
+	else
+	{
+		cout << "User goes first" << endl;
+		turn = 1;
+	}
+
+
+
+	cout << "Choose your marker, enter X or O: " << endl; //Asks the user to decide which marker they want
+	cin >> decision;
+
+	decision = toupper(decision); //Makes input capital letters
+
+	if (decision == 'X') //User gets X Computer gets O
+	{
+		playerMarker   = 'X';
+		computerMarker = 'O';
+	}
+	else //User gets O Computer gets X
+	{
+		playerMarker   = 'O';
+		computerMarker = 'X';
+	}
+
+	return(turn); //Returns the value to decide who goes first
+}
+
+
+int number_Check(int &user_input) // Function that checks the users entry and determines if valid
+{
+	if( user_input < 1 || user_input > 9) // Sets the valid inputs from 1-9 only
+	{
+		cout << "Invalid Input : The position indicator has to be between 1 and 9. " <<endl; // Displays the error and asks the user to correct there input
+	}
+	return(user_input);
+}
+
+int player_turn(int &user_input) // Determines the space availability for player
+{
+	bool done = false;
+
+	do
+	{
+		switch(user_input)
+		{
+			case 1: // Determines if the space is available or not for #1
+			{
+				if(space1 == '1')
+				{
+					space1 = playerMarker;
+					done = true;
+				}
+				else
+				{
+					cout << "Space Not Available, Try Another Spot Please" << endl; // Displayed when the space is not available
+				}
+				break;
+			}
+			case 2: // Determines if the space is available or not for #2
+					{
+						if(space2 == '2')
+						{
+							space2 = playerMarker; // Connects Space 2 with the selected player marker
+							done = true;
+						}
+						else
+						{
+							cout << "Space Not Available, Try Another Spot Please" << endl;// Displayed when the space is not available
+						}
+						break;
+					}
+			case 3:   // Determines if the space is available or not for #3
+							{
+								if(space3 == '3')
+								{
+									space3 = playerMarker; // Connects Space 3 with the selected player marker
+									done = true;
+								}
+								else
+								{
+									cout << "Space Not Available, Try Another Spot Please" << endl;// Displayed when the space is not available
+								}
+								break;
+							}
+			case 4:    // Determines if the space is available or not for #4
+							{
+								if(space4 == '4')
+								{
+									space4 = playerMarker; // Connects Space 4 with the selected player marker
+									done = true;
+								}
+								else
+								{
+									cout << "Space Not Available, Try Another Spot Please" << endl;// Displayed when the space is not available
+								}
+								break;
+							}
+			case 5:    // Determines if the space is available or not for #5
+							{
+								if(space5 == '5')
+								{
+									space5 = playerMarker; // Connects Space 5 with the selected player marker
+									done = true;
+								}
+								else
+								{
+									cout << "Space Not Available, Try Another Spot Please" << endl;// Displayed when the space is not available
+								}
+								break;
+							}
+			case 6:     // Determines if the space is available or not for #6
+							{
+								if(space6 == '6')
+								{
+									space6 = playerMarker; // Connects Space 6 with the selected player marker
+									done = true;
+								}
+								else
+								{
+									cout << "Space Not Available, Try Another Spot Please" << endl; // Displayed when the space is not available
+								}
+								break;
+							}
+			case 7:      // Determines if the space is available or not for #7
+							{
+								if(space7 == '7')
+								{
+									space7 = playerMarker; // Connects Space 7 with the selected player marker
+									done = true;
+								}
+								else
+								{
+									cout << "Space Not Available, Try Another Spot Please" << endl; // Displayed when the space is not available
+								}
+								break;
+							}
+			case 8:      // Determines if the space is available or not for #8
+							{
+								if(space8 == '8')
+								{
+									space8 = playerMarker; // Connects Space 8 with the selected player marker
+									done = true;
+								}
+								else
+								{
+									cout << "Space Not Available, Try Another Spot Please" << endl; // Displayed when the space is not available
+								}
+								break;
+							}
+			case 9:      // Determines if the space is available or not for #9
+							{
+								if(space9 == '9') // If space 9 selected then place an X ending the turn
+								{
+									space9 = playerMarker; // Connects Space 9 with the board with the selected player marker
+									done = true;
+								}
+								else
+								{
+									cout << "Space Not Available, Try Another Spot Please" << endl; // Displayed when the space is not available
+								}
+								break;
+							}
+
+		}
+			if (done == false)
+			{
+				cout << " Enter a new number : "; // Displays Enter New Space selection
+				cin >> user_input; // Connects the space selection
+				cout <<endl;
+			}
+	}while(done == false);
+
+	return(user_input);
+}
+
+	int computer_play( int &computer_input) // Function for Computers turn
+	{
+		bool cp_done = false;
+
+		do
+		{
+
+		computer_input = (rand()%9) +1; // Generates random number for the computer
+
+		switch(computer_input)
+			{
+				case 1: // Determines if the space is available or not for #1
+				{
+					if(space1 == '1')
+					{
+						space1 = computerMarker; // Connects Space 1 from the board with the computer marker
+						cp_done = true;
+					}
+					break;
+				}
+				case 2: // Determines if the space is available or not for #2
+						{
+							if(space2 == '2')
+							{
+								space2 = computerMarker; // Connects Space 2 from the board with the computer marker
+								cp_done = true;
+							}
+							break;
+						}
+				case 3:   // Determines if the space is available or not for #3
+								{
+									if(space3 == '3')
+									{
+										space3 = computerMarker; // Connects Space 3 from the board with the computer marker
+										cp_done = true;
+									}
+									break;
+								}
+				case 4:    // Determines if the space is available or not for #4
+								{
+									if(space4 == '4')
+									{
+										space4 = computerMarker; // Connects Space 4 from the board with the computer marker
+										cp_done = true;
+									}
+									break;
+								}
+				case 5:    // Determines if the space is available or not for #5
+								{
+									if(space5 == '5')
+									{
+										space5 = computerMarker; // Connects Space 5 from the board with the computer marker
+										cp_done = true;
+									}
+									break;
+								}
+				case 6:     // Determines if the space is available or not for #6
+								{
+									if(space6 == '6')
+									{
+										space6 = computerMarker; // Connects Space 6 from the board with the computer marker
+										cp_done = true;
+									}
+
+									break;
+								}
+				case 7:      // Determines if the space is available or not for #7
+								{
+									if(space7 == '7')
+									{
+										space7 = computerMarker; // Connects Space 7 from the board with the computer marker
+										cp_done = true;
+									}
+									break;
+								}
+				case 8:      // Determines if the space is available or not for #8
+								{
+									if(space8 == '8')
+									{
+										space8 = computerMarker; // Connects Space 8 from the board with the computer marker
+										cp_done = true;
+									}
+									break;
+								}
+				case 9:      // Determines if the space is available or not for #9
+								{
+									if(space9 == '9')
+									{
+										space9 = computerMarker; // Connects Space 9 from the board with the computer marker
+										cp_done = true;
+									}
+									break;
+								}
+
+			}
+		}while( cp_done == false); // allows for the computers turn to end
+			return(computer_input);
+	}
+
+	bool winner ( bool &end_game) // Determines the possible winning patterns on the board
+	{
+
+		if(space1 == playerMarker && space2 ==playerMarker && space3 ==playerMarker) // Winning horizontal pattern on the board
+		{
+			end_game = true; // If pattern match then game ends
+			cout << "Player 1 takes the game! " << endl; // Displays winner message
+
+		}
+
+		else if(space4 ==playerMarker && space5 ==playerMarker && space6 ==playerMarker) // Winning horizontal pattern on board
+		{
+			end_game = true; // If pattern match then game ends
+			cout << "Player 1 takes the game! " << endl; // Displays winner message
+
+		}
+		else if (space7 == playerMarker && space8 == playerMarker && space9 == playerMarker) // Winning horizontal pattern on board
+		{
+			end_game = true; // If pattern match then game ends
+			cout << "Player 1 takes the game! " << endl; // Displays winner message
+
+		}
+		else if (space1 == playerMarker && space4 == playerMarker && space7 == playerMarker) // Winning Vertical pattern
+		{
+			end_game = true; //If pattern match then game ends
+			cout << "Player 1 takes the game! " << endl; // Displays winner message
+
+		}
+		else if(space2 == playerMarker && space5 == playerMarker && space8 == playerMarker) // Winning Vertical pattern
+		{
+			end_game = true;
+			cout << "Player 1 takes the game! " << endl; // Displays winner message
+
+		}
+		else if(space3 == playerMarker && space6 == playerMarker && space9 == playerMarker) // Winning Vertical pattern
+		{
+			end_game = true;
+			cout << "Player 1 takes the game! " << endl;// Displays winner message
+
+		}
+		else if(space1 == playerMarker && space5 == playerMarker && space9 == playerMarker) // Winning Diagonally
+		{
+			end_game = true;
+			cout << "Player 1 takes the game! " << endl;// Displays winner message
+
+		}
+		else if(space3 == playerMarker && space5 == playerMarker && space7 == playerMarker)// Winning Diagonally
+		{
+			end_game = true;
+			cout << "Player 1 takes the game! " << endl;// Displays winner message
+
+		}
+		else if(space1 == computerMarker && space2 == computerMarker && space3 ==computerMarker) // Winning horizontal pattern on the board
+		{
+			end_game = true;
+			cout << "Computer takes the game! " << endl; // Displays winner message
+
+		}
+		else if(space4 == computerMarker && space5 == computerMarker && space6 == computerMarker) // Winning horizontal pattern on board
+		{
+			end_game = true;
+			cout << "Computer takes the game! " << endl;// Displays winner message
+
+		}
+		else if(space7 == computerMarker && space8 == computerMarker && space9 == computerMarker) // Winning horizontal pattern on board
+		{
+			end_game = true;
+			cout << "Computer takes the game! " << endl;// Displays winner message
+
+		}
+		else if(space1 == computerMarker && space4 == computerMarker && space7 == computerMarker) // Winning Vertical pattern
+		{
+			end_game = true;
+			cout << "Computer takes the game! " << endl;// Displays winner message
+
+		}
+		else if(space2 == computerMarker && space5 == computerMarker && space8 == computerMarker) // Winning Vertical pattern
+		{
+			end_game = true;
+			cout << "Computer takes the game! " << endl;// Displays winner message
+
+		}
+		else if(space3 == computerMarker && space6 == computerMarker && space9 == computerMarker) // Winning Vertical pattern
+		{
+			end_game = true;
+			cout << "Computer takes the game! " << endl;// Displays winner message
+
+		}
+		else if(space1 == computerMarker && space5 == computerMarker && space9 == computerMarker) // Winning Diagonally
+		{
+			end_game = true;
+			cout << "Computer takes the game! " << endl;// Displays winner message
+
+		}
+		else if(space3 == computerMarker && space5 == computerMarker && space7== computerMarker) // Winning Diagonally
+		{
+			end_game = true;
+			cout << "Computer takes the game! " << endl;// Displays winner message
+
+		}
+		else if(space1 != '1' && space2 != '2' && space3 != '3' && space4 != '4' && space5 != '5' && space6 != '6' && space7 != '7' && space8 != '8' && space9 != '9')
+		{
+			end_game = true;
+			cout << "The Games a Tie!" <<endl;// Displays tied game message
+		}
+
+		else
+		{
+			end_game = false; // Ends game
+		}
+
+		return(end_game);
+	}
+
+int main()
+{
+	int computer_input; // Computer input variable
+	int user_input; // User input variable
+	int turn; // turn variable
+	bool end_game = false;
+	srand(time(NULL)); // Applies the randomization fator
+
+	flip_coin(turn); // Calls the flip coin function
+
+	if (turn == 1) //Executes game for player to go first
+	{
+		do
+		{
+			board(); // Connects to the game board function
+			cout << " Enter your position : " << endl; // Input for the Game
+			cin >> user_input; // Connects the users input to the board
+			number_Check(user_input); // Connects to the function that checks for appropriate input
+
+			player_turn(user_input); //Player takes their turn
+
+			winner(end_game); //Checks if there is a winner
+
+			if (end_game == true) //Ends the game if there is a winner
+			{
+				board();
+				break;
+			}
+
+			computer_play(computer_input); //Computer takes their turn
+
+			winner(end_game); //Check if there is a winner
+
+			if (end_game == true) //End the game if there is a winner or tie
+			{
+				board();
+				break;
+			}
+
+
+		}while(end_game == false);
+	}
+
+	else //Executes game for computer to go first
+	{
+		do
+		{
+			board(); // Connects to the game board function
+
+			computer_play(computer_input); //computer takes their turn
+			board(); // Connects to the game board function
+
+			winner(end_game); //Check if there is a winner
+
+			if (end_game == true) //Ends game if there is a winner or a tie
+			{
+				board(); // Calls the board function
+				break;
+			}
+
+			cout << " Enter your position : " << endl; // Input for the Game
+			cin >> user_input; // Connects the users input to the board
+			number_Check(user_input); // connects to the function that checks for appropriate input
+
+			player_turn(user_input); //Player takes there turn
+
+			winner(end_game); //Checks for winner
+
+			if (end_game == true) //End if there is a winner or tie
+			{
+				board(); // Calls the board function
+				break;
+			}
+
+		}while(end_game == false); // ends game
+
+	}
+
+	return(0);
+}
